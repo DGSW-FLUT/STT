@@ -46,18 +46,26 @@ recorder
 console.log('Listening, press Ctrl+C to stop.');
 
 async function searchYoutube(data) {
-  var YouTube = require('youtube-node');
-  var { YoutubeApiKey: key } = process.env;
-  var youtube = new YouTube();
+  const YouTube = require('youtube-node');
+  const open = require('open');
+  const { YoutubeApiKey: key } = process.env;
+
+
+  const youtube = new YouTube();
   
   youtube.setKey(key);
   youtube.addParam('type', 'video');
 
-  youtube.search(`${data.transcript}`, 5, (err, result) => {
+  youtube.search(`${data.transcript}`, 5, async(err, result) => {
     if(err) {
       console.log(err);
     } else {
       console.log(JSON.stringify(result, null, 5));
+
+      let { videoId } = result.items[0].id;
+      let url = "https://www.youtube.com/watch?v=" + videoId;
+
+      await open(url, {app:'chrome'});
     }
   })
 }
