@@ -17,11 +17,15 @@ const recognizeStream = client
   .streamingRecognize(request)
   .on('error', console.error)
   .on('data', data => {
+    let searchTitle = data.results[0].alternatives[0];
+
       process.stdout.write(
         data.results[0] && data.results[0].alternatives[0]
           ? `Transcription: ${data.results[0].alternatives[0].transcript}\n`
           : `\n\nReached transcription time limit, press Ctrl+C\n`
       )
+
+    searchYoutube(searchTitle);
     }
   );
 
@@ -40,3 +44,20 @@ recorder
   .pipe(recognizeStream);
 
 console.log('Listening, press Ctrl+C to stop.');
+
+async function searchYoutube(data) {
+  var YouTube = require('youtube-node');
+  var { YoutubeApiKey: key } = process.env;
+  var youtube = new YouTube();
+  
+  youtube.setKey(key);
+  youtube.addParam('type', 'video');
+
+  youtube.search(`${data.transcript}`, 5, (err, result) => {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log(JSON.stringify(result, null, 5));
+    }
+  })
+}
