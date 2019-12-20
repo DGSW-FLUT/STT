@@ -9,10 +9,9 @@ const request = {
     sampleRateHertz: 16000,
     languageCode: 'ko-KR',
   },
-  interimResults: false, // If you want interim results, set this to true
+  interimResults: false,
 };
 
-// Create a recognize stream
 const recognizeStream = client
   .streamingRecognize(request)
   .on('error', console.error)
@@ -29,7 +28,6 @@ const recognizeStream = client
     }
   );
 
-// Start recording and send the microphone input to the Speech API
 recorder
   .record({
     sampleRateHertz: 16000,
@@ -38,10 +36,7 @@ recorder
     verbose: false,
     recordProgram: 'rec',
     silence: '10.0',
-  })
-  .stream()
-  .on('error', console.error)
-  .pipe(recognizeStream);
+}).stream().on('error', console.error).pipe(recognizeStream);
 
 console.log('Listening, press Ctrl+C to stop.');
 
