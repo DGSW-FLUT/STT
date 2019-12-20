@@ -1,44 +1,47 @@
 require('dotenv').config();
-const recorder = require('node-record-lpcm16');
-const speech = require('@google-cloud/speech');
-const client = new speech.SpeechClient();
 
-const request = {
-  config: {
-    encoding: 'LINEAR16',
-    sampleRateHertz: 16000,
-    languageCode: 'ko-KR',
-  },
-  interimResults: false,
-};
+async function record() {
+  const recorder = require('node-record-lpcm16');
+  const speech = require('@google-cloud/speech');
+  const client = new speech.SpeechClient();
 
-const recognizeStream = client
-  .streamingRecognize(request)
-  .on('error', console.error)
-  .on('data', data => {
-    let searchTitle = data.results[0].alternatives[0];
+  const request = {
+    config: {
+      encoding: 'LINEAR16',
+      sampleRateHertz: 16000,
+      languageCode: 'ko-KR',
+    },
+    interimResults: false,
+  };
 
-      process.stdout.write(
-        data.results[0] && data.results[0].alternatives[0]
-          ? `Transcription: ${data.results[0].alternatives[0].transcript}\n`
-          : `\n\nReached transcription time limit, press Ctrl+C\n`
-      )
+  const recognizeStream = client
+    .streamingRecognize(request)
+    .on('error', console.error)
+    .on('data', data => {
+      let searchTitle = data.results[0].alternatives[0];
 
-    searchYoutube(searchTitle);
-    }
-  );
+        process.stdout.write(
+          data.results[0] && data.results[0].alternatives[0]
+            ? `Transcription: ${data.results[0].alternatives[0].transcript}\n`
+            : `\n\nReached transcription time limit, press Ctrl+C\n`
+        )
 
-recorder
-  .record({
-    sampleRateHertz: 16000,
-    threshold: 0,
-    device: null,
-    verbose: false,
-    recordProgram: 'rec',
-    silence: '10.0',
-}).stream().on('error', console.error).pipe(recognizeStream);
+      searchYoutube(searchTitle);
+      }
+    );
 
-console.log('Listening, press Ctrl+C to stop.');
+  recorder
+    .record({
+      sampleRateHertz: 16000,
+      threshold: 0,
+      device: null,
+      verbose: false,
+      recordProgram: 'rec',
+      silence: '10.0',
+  }).stream().on('error', console.error).pipe(recognizeStream);
+
+  console.log('Listening, press Ctrl+C to stop.');
+}
 
 async function searchYoutube(data) {
   const YouTube = require('youtube-node');
@@ -64,3 +67,5 @@ async function searchYoutube(data) {
     }
   })
 }
+
+record();
