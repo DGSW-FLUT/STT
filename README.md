@@ -21,3 +21,6 @@
 - 검색후 결과를 5개를 보여줌
 - 몇 번째 거를 틀지 선택하게 함
 - 노래 종료 후 대기상태로 이동
+
+### 참고문헌
+- Google Cloud Platform(Speech To Text Api, Youtube Data V3 Api)
