@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+    </head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+        const socket = io.connect('localhost:3000');
+        var mrg = {'x':0, 'y':0};
+        function onLoad()
+        {
+            socket.emit('abc', '1234');
+            socket.on('transcript', function (data) {
+                console.log(data);
+                if (data.indexOf('왼쪽') != -1)
+                {
+                    const e = document.getElementById("pex");
+                    mrg.x -= 32;
+                    e.style["margin-left"] = mrg.x;
+                    console.log(mrg);
+                }
+                if (data.indexOf('오른쪽') != -1)
+                {
+                    const e = document.getElementById("pex");
+                    mrg.x += 32;
+                    e.style["margin-left"] = mrg.x;
+                    console.log(mrg);
+                }
+                if (data.indexOf('아래쪽') != -1)
+                {
+                    const e = document.getElementById("pex");
+                    mrg.y += 32;
+                    e.style["margin-top"] = mrg.y;
+                    console.log(mrg);
+                }
+                if (data.indexOf('위쪽') != -1)
+                {
+                    const e = document.getElementById("pex");
+                    mrg.y -= 32;
+                    e.style["margin-top"] = mrg.y;
+                    console.log(mrg);
+                }
+            });
+        }
+        window.addEventListener("load", onLoad, false);
+    </script>
+    <div style="width:32px;height:32px;background-color: red;" id="pex">
+
+    </div>
+</html>

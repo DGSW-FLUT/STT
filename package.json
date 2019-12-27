@@ -1,7 +1,7 @@
 {
   "name": "test",
   "version": "1.0.0",
-  "description": "",
+  "description": "- 음성인식을 통해서 제어\r - 네이버 급상승 검색어 표시\r - 언론사 크롤링후 표시\r - 노래 틀어주기",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,5 +17,13 @@
     "open": "^7.0.0",
     "watson-developer-cloud": "^4.0.1",
     "youtube-node": "^1.3.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DGSW-FLUT/STT.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DGSW-FLUT/STT/issues"
+  },
+  "homepage": "https://github.com/DGSW-FLUT/STT#readme"
 }
