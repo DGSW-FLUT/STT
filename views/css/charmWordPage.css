@@ -1,0 +1,22 @@
+* {
+    font-family: "궁서체";
+}
+
+.mainText {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    font-size: 120px;
+}
+
+.outputBox {
+    margin-top: 3%;
+}
+
+.output {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    font-size: 60px;
+    margin-top: 50px;
+}

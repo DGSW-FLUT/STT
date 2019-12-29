@@ -1,25 +1,6 @@
-//require('dotenv').config();
+require('dotenv').config();
 const recorder = require('node-record-lpcm16');
-//Change args from "node-record-lpcm16/recordes\sox.js"
-/*
-let args = [
-  '--no-show-progress', // show no progress
-  '-t', options.audioType,
-  '-d',
-  '--rate', options.sampleRate, // sample rate
-  '--channels', options.channels, // channels
-  '--encoding', 'signed-integer', // sample encoding
-  '--bits', '16', // precision (bits)
-  '--type', 'raw', // audio type
-  '-' // pipe
-]
-*/
 const speech = require('@google-cloud/speech');
-//1. Install Google Cloud SDK
-//2. ADD Evrionment PATH GOOGLE_APPLICATION_CREDENTIALS
-/*
-https://cloud.google.com/docs/authentication/getting-started
-*/
 const client = new speech.SpeechClient();
 
 const app = require('express')();

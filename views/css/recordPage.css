@@ -1,0 +1,24 @@
+* {
+    font-family: "궁서체";
+}
+
+.mainText {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    font-size: 150px;
+}
+
+.subText {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    font-size: 80px;
+}
+
+.input {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    font-size: 80px;
+}

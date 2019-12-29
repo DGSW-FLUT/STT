@@ -1,0 +1,19 @@
+* {
+    font-family: "궁서체";
+}
+
+.mainText {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    font-size: 150px;
+}
+
+.video {
+    flex: 1;
+    margin: 0 auto;
+    margin-top: 3%;
+    width: 50%;
+    height: 50%;
+    background-color: black;
+}

@@ -1,0 +1,23 @@
+* {
+    font-family: "궁서체";
+}
+
+.mainText {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    font-size: 150px;
+}
+
+.subText {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    font-size: 80px;
+}
+
+.thumnail {
+    background-color: black;
+    width: 20%;
+    height: 40%;
+}
