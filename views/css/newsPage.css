@@ -1,12 +1,4 @@
-.subText {
-    font-family: '경기천년바탕 굵음';
-    flex: 1;
-    justify-content: center;
-    text-align: center;
-    font-size: 80px;
-}
-
-.outputBox {
+#outputBox {
     margin-top: 3%;
     margin-left: 20%;
 }

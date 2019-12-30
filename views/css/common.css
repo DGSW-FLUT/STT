@@ -18,10 +18,18 @@
     src: url('/asset/경기천년바탕_Regular.ttf');
 }
 
-.mainText {
+#mainText {
     flex: 1;
     justify-content: center;
     text-align: center;
     font-size: 120px;
     font-family: '210 맨발의 청춘';
+}
+
+#subText {
+    font-family: '경기천년바탕 굵음';
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    font-size: 80px;
 }

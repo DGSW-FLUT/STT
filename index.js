@@ -42,6 +42,20 @@ const request = {
   interimResults: false,
 };
 
+
+const transcriptProcess = (text) => {
+  const state = 'WAIT';
+  switch (state)
+  {
+    case 'WAIT':
+      if (text.indexOf('뉴스') != -1)
+      {
+        io.emit('page news', {'title':'111부문', 'headlines':['131','2','3','4','5','6','7']});
+      }
+      break;
+  }
+};
+
 const recognizeStream = client
 .streamingRecognize(request)
 .on('error', e => {console.log(recognizeStream); console.error(e);})
@@ -49,7 +63,7 @@ const recognizeStream = client
   if (data.results[0] && data.results[0].alternatives[0])
   {
     const text = data.results[0].alternatives[0].transcript;
-    io.emit('transcript', text);
+    transcriptProcess(text);
     console.log(text);
   }
 });
