@@ -1,4 +1,4 @@
-require('dotenv').config();
+//require('dotenv').config();
 const recorder = require('node-record-lpcm16');
 const speech = require('@google-cloud/speech');
 const client = new speech.SpeechClient();
@@ -8,6 +8,19 @@ const http = require('http').createServer(app);
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/client.html');
+  res.status(200);
+});
+app.get('/css/*', (req, res) => {
+  res.sendFile(__dirname + '/views/css/' + decodeURI(req.originalUrl.substr('/css/'.length)));
+  res.status(200);
+});
+app.get('/asset/*', (req, res) => {
+  res.sendFile(__dirname + '/views/assets/' + decodeURI(req.originalUrl.substr('/asset/'.length)));
+  res.status(200);
+});
+app.get('/views/*', (req, res) => {
+  res.sendFile(__dirname + '/views/' + decodeURI(req.originalUrl.substr('/views/'.length)));
+  res.status(200);
 });
 http.listen(80, () => {
   console.log('listening on *:3000');

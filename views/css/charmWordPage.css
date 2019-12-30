@@ -1,14 +1,3 @@
-* {
-    font-family: "궁서체";
-}
-
-.mainText {
-    flex: 1;
-    justify-content: center;
-    text-align: center;
-    font-size: 120px;
-}
-
 .outputBox {
     margin-top: 3%;
 }
@@ -19,4 +8,5 @@
     text-align: center;
     font-size: 60px;
     margin-top: 50px;
+    font-family: '경기천년바탕';
 }

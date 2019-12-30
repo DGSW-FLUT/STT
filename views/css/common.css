@@ -1,0 +1,27 @@
+@font-face {
+    font-family: '210 맨발의 청춘';
+    src: url('/asset/210 맨발의청춘L.ttf');
+}
+
+@font-face {
+    font-family: '나눔스퀘어';
+    src: url('/asset/NanumSquare_acB.ttf');
+}
+
+@font-face {
+    font-family: '경기천년바탕 굵음';
+    src: url('/asset/경기천년바탕_Bold.ttf');
+}
+
+@font-face {
+    font-family: '경기천년바탕';
+    src: url('/asset/경기천년바탕_Regular.ttf');
+}
+
+.mainText {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    font-size: 120px;
+    font-family: '210 맨발의 청춘';
+}

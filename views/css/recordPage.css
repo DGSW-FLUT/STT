@@ -1,15 +1,5 @@
-* {
-    font-family: "궁서체";
-}
-
-.mainText {
-    flex: 1;
-    justify-content: center;
-    text-align: center;
-    font-size: 150px;
-}
-
 .subText {
+    font-family: '경기천년바탕 굵음';
     flex: 1;
     justify-content: center;
     text-align: center;
@@ -17,8 +7,11 @@
 }
 
 .input {
+    
+    font-family: '경기천년바탕';
     flex: 1;
     justify-content: center;
     text-align: center;
     font-size: 80px;
+    margin-top: 260px;
 }
