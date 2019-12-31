@@ -6,6 +6,7 @@ const client = new speech.SpeechClient();
 const app = require('express')();
 const http = require('http');
 const chosun_news = require('./chosun-news');
+const naver_issue = require('./naver-issue');
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/client.html');
@@ -71,6 +72,13 @@ const transcriptProcess = (text) => {
         if (text.indexOf('문화') != -1) type = 5;
         chosun_news.parse('/ranking/rss/www/politics/list.xml', (headlines) => {
           io.emit('page news', {'title':type_list[type] + ' 부문', 'headlines': headlines});
+        });
+      }
+      else if (text.indexOf('실검') != -1)
+      {
+        naver_issue.parse((data) => {
+          console.log(data);
+          io.emit('page naver', {'words': data});
         });
       }
       break;

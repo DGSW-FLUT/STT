@@ -45,6 +45,25 @@
                 };
                 page.setAttribute('src', '/views/newsPage.html');
             });
+
+            socket.on('page naver', function (data) {
+                page_data = data;
+                page_onload = function (data) {
+                    page_document.getElementById('outputBox').innerHTML = '';
+                    
+                    data.words.forEach((e, i) =>
+                    {
+                        if (i < 6)
+                        {
+                            let node = document.createElement("div");
+                            node.setAttribute('class', 'output');
+                            node.innerText = (i + 1) + '. ' + e;
+                            page_document.getElementById('outputBox').appendChild(node);
+                        }
+                    });
+                };
+                page.setAttribute('src', '/views/charmWordPage.html');
+            });
         }, false);
     </script>
     <body style="margin: 0 0 0 0;width: 1920px; height: 1080px;overflow:hidden; background-image: url('/views/assets/Background.png');">
