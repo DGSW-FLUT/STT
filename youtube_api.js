@@ -1,7 +1,7 @@
 const youtube_node = require('youtube-node');
 
 const youtube = new youtube_node();
-youtube.setKey('AIzaSyCaIz0aDA89q0W-oDhOb3s_h3_jRe_b8cQ');
+youtube.setKey('');
 youtube.addParam('type', 'video');
 
 function searchYoutube(data, callback) {
