@@ -25,7 +25,6 @@
                 if (page_onload) page_onload(page_data);
                 else console.log(':::page onload is null');
             }, false);
-            console.log(page);
 
             socket.on('page news', function (data) {
                 page_data = data;
@@ -35,7 +34,7 @@
                     
                     data.headlines.forEach((e, i) =>
                     {
-                        if (i < 5 )
+                        if (i < 5)
                         {
                             let node = document.createElement("div");
                             node.setAttribute('class', 'output');
@@ -48,7 +47,7 @@
             });
         }, false);
     </script>
-    <body style="margin: 0 0 0 0;width: 1920px; height: 1080px;overflow:hidden;">
+    <body style="margin: 0 0 0 0;width: 1920px; height: 1080px;overflow:hidden; background-image: url('/views/assets/Background.png');">
         <iframe id="page" style="width: 1920px; height: 1080px;" src="/views/index.html">
 
         </iframe>

@@ -4,7 +4,8 @@ const speech = require('@google-cloud/speech');
 const client = new speech.SpeechClient();
 
 const app = require('express')();
-const http = require('http').createServer(app);
+const http = require('http');
+const chosun_news = require('./chosun-news');
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/client.html');
@@ -22,14 +23,14 @@ app.get('/views/*', (req, res) => {
   res.sendFile(__dirname + '/views/' + decodeURI(req.originalUrl.substr('/views/'.length)));
   res.status(200);
 });
-http.listen(80, () => {
+http.createServer(app).listen(80, () => {
   console.log('listening on *:3000');
 });
 
 const io = require('socket.io')(3000);
 io.on('connection', socket => { 
-  socket.on('abc', data => {
-
+  socket.on('debug', data => {
+    transcriptProcess(data);
   });
 });
 
@@ -50,7 +51,27 @@ const transcriptProcess = (text) => {
     case 'WAIT':
       if (text.indexOf('뉴스') != -1)
       {
-        io.emit('page news', {'title':'111부문', 'headlines':['131','2','3','4','5','6','7']});
+        const path_map = {
+          'politics': '/ranking/rss/www/politics/list.xml',
+          'national': '/ranking/rss/www/national/list.xml',
+          'international': '/ranking/rss/www/international/list.xml',
+          'sports': '/ranking/rss/www/sports/list.xml',
+          'star': '/ranking/rss/www/star/list.xml',
+          'culture': '/ranking/rss/www/culture/list.xml'
+        }
+        const type_list = [
+          '정치', '국내시사', '국제시사', '스포츠', '연예', '문화'
+        ]
+        let type = Math.floor(Math.random() * (Object.keys(path_map).length + 1));
+        if (text.indexOf('정치') != -1) type = 0;
+        if (text.indexOf('국내') != -1) type = 1;
+        if (text.indexOf('국제') != -1 || text.indexOf('해외') != -1) type = 2;
+        if (text.indexOf('스포츠') != -1) type = 3;
+        if (text.indexOf('연예') != -1) type = 4;
+        if (text.indexOf('문화') != -1) type = 5;
+        chosun_news.parse('/ranking/rss/www/politics/list.xml', (headlines) => {
+          io.emit('page news', {'title':type_list[type] + ' 부문', 'headlines': headlines});
+        });
       }
       break;
   }
