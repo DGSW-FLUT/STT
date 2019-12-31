@@ -11,3 +11,17 @@
     width: 20%;
     height: 40%;
 }
+
+#outputBox {
+    margin-top: 3%;
+    margin-left: 5%;
+}
+
+.output {
+    font-family: '경기천년바탕';
+    flex: 1;
+    justify-content: center;
+    text-align: left;
+    font-size: 60px;
+    margin-top: 50px;
+}

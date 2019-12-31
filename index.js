@@ -7,6 +7,7 @@ const app = require('express')();
 const http = require('http');
 const chosun_news = require('./chosun-news');
 const naver_issue = require('./naver-issue');
+const youtube_api = require('./youtube_api');
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/client.html');
@@ -89,7 +90,10 @@ const transcriptProcess = (text) => {
       break;
     case 'YOUTUBE RECORD':
       state = 'YOUTUBE SEARCH';
-      io.emit('page youtube search', null);
+      youtube_api.search(text, (data) => {
+        io.emit('page youtube search', data);
+      });
+      
       break;
   }
 };
