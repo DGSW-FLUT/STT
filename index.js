@@ -81,6 +81,15 @@ const transcriptProcess = (text) => {
           io.emit('page naver', {'words': data});
         });
       }
+      else if (text.indexOf('유튜브') != -1)
+      {
+        state = 'YOUTUBE RECORD';
+        io.emit('page youtube record', null);
+      }
+      break;
+    case 'YOUTUBE RECORD':
+      state = 'YOUTUBE SEARCH';
+      io.emit('page youtube search', null);
       break;
   }
 };

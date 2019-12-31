@@ -64,6 +64,16 @@
                 };
                 page.setAttribute('src', '/views/charmWordPage.html');
             });
+            socket.on('page youtube record', function (data) {
+                page_data = data;
+                page_onload = function (data) {};
+                page.setAttribute('src', '/views/recordingPage.html');
+            });
+            socket.on('page youtube search', function (data) {
+                page_data = data;
+                page_onload = function (data) {};
+                page.setAttribute('src', '/views/recordingPage.html');
+            });
         }, false);
     </script>
     <body style="margin: 0 0 0 0;width: 1920px; height: 1080px;overflow:hidden; background-image: url('/views/assets/Background.png');">
