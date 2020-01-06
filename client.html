@@ -21,10 +21,24 @@
             page = document.getElementById('page');
             page.addEventListener("load", () => {
                 page_document = page.contentWindow.document;
-                console.log(page_onload);
                 if (page_onload) page_onload(page_data);
                 else console.log(':::page onload is null');
             }, false);
+
+            socket.on('page lobby', function (data) {
+                page_data = data;
+                page_onload = function (data) {
+                };
+                page.setAttribute('src', '/views/index.html');
+            });
+            
+            socket.on('connect', function (data) {
+                page_data = data;
+                page_onload = function (data) {
+                };
+                page.setAttribute('src', '/views/index.html');
+            });
+            
 
             socket.on('page news', function (data) {
                 page_data = data;
@@ -71,8 +85,41 @@
             });
             socket.on('page youtube search', function (data) {
                 page_data = data;
-                page_onload = function (data) {};
-                page.setAttribute('src', '/views/recordingPage.html');
+                page_onload = function (data) {
+                    page_document.getElementById('subText').innerText = '"' + data.header + '"에대한 검색결과"';
+                    for (let i = 0; i < 6; ++i)
+                    {
+                        let listItem = page_document.getElementById('listItem:' + i);
+                        if (i < data.data.length)
+                        {
+                            listItem.setAttribute('visibility', 'visible');
+
+                            listItem.querySelector('.thumbnail').setAttribute('style', "background-size:cover; background-image:url('http://img.youtube.com/vi/" + data.data[i].videoId + "/0.jpg')");
+
+                            let text = data.data[i].title;
+                            if (text.length > 17) text = text.substring(0, 17) + '...';
+                            listItem.querySelector('.thumbnail_mainText').innerText = text;
+
+                            text = data.data[i].desc;
+                            if (text.length > 30) text = text.substring(0, 27) + '...';
+                            listItem.querySelector('.thumbnail_subText').innerText = text;
+                        }
+                        else
+                        {
+                            listItem.setAttribute('visibility', 'hidden');
+                        }
+                    }
+                };
+                page.setAttribute('src', '/views/youtubeDataPage.html');
+            });
+            socket.on('page youtube show', function (data) {
+                page_data = data;
+                page_onload = function (data) {
+                    let text = data.title;
+                    if (text.length > 15) text = text.substring(0, 15) + '...';
+                    page_document.getElementById('mainText').innerText = text;
+                };
+                page.setAttribute('src', '/views/youtubeVideoPage.html?watch=' + data.videoId);
             });
         }, false);
     </script>

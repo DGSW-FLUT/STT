@@ -5,24 +5,30 @@ const client = new speech.SpeechClient();
 
 const app = require('express')();
 const http = require('http');
-const chosun_news = require('./chosun-news');
-const naver_issue = require('./naver-issue');
-const youtube_api = require('./youtube_api');
+const chosun_news = require('./lib/chosun-news');
+const naver_issue = require('./lib/naver-issue');
+const youtube_api = require('./lib/youtube_api');
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/client.html');
   res.status(200);
 });
 app.get('/css/*', (req, res) => {
-  res.sendFile(__dirname + '/views/css/' + decodeURI(req.originalUrl.substr('/css/'.length)));
+  let str = __dirname + '/views/css/' + decodeURI(req.originalUrl.substr('/css/'.length));
+  if (str.indexOf('?') != -1) str = str.substring(0, str.indexOf('?'));
+  res.sendFile(str);
   res.status(200);
 });
 app.get('/asset/*', (req, res) => {
-  res.sendFile(__dirname + '/views/assets/' + decodeURI(req.originalUrl.substr('/asset/'.length)));
+  let str = __dirname + '/views/assets/' + decodeURI(req.originalUrl.substr('/asset/'.length));
+  if (str.indexOf('?') != -1) str = str.substring(0, str.indexOf('?'));
+  res.sendFile(str);
   res.status(200);
 });
 app.get('/views/*', (req, res) => {
-  res.sendFile(__dirname + '/views/' + decodeURI(req.originalUrl.substr('/views/'.length)));
+  let str = __dirname + '/views/' + decodeURI(req.originalUrl.substr('/views/'.length));
+  if (str.indexOf('?') != -1) str = str.substring(0, str.indexOf('?'));
+  res.sendFile(str);
   res.status(200);
 });
 http.createServer(app).listen(80, () => {
@@ -45,9 +51,24 @@ const request = {
   interimResults: false,
 };
 
+const processSelectingYoutube = (youtube_data) => {
+  state = 'YOUTUBE SHOW';
+  youtube_api.info(youtube_data.videoId, (data) => {
+    io.emit('page youtube show', youtube_data);
+    let str = data.items[0].contentDetails.duration.substring(2);
+    let minutes = str.substring(0, str.indexOf('M'));
+    str = str.substring(str.indexOf('M') + 1);
+    let seconds = str.substring(0, str.length - 1);
+    
+    console.log('It takes ' + (minutes * 60 + seconds) + 'seconds.');
+    setTimeout(() => { console.log('It\'s gone'); io.emit('page lobby', null); },
+    (minutes * 60 + seconds + 2) * 1000); //Two seconds for latency
+  });
+};
 
+var state = 'WAIT';
+var youtube_data = null;
 const transcriptProcess = (text) => {
-  const state = 'WAIT';
   switch (state)
   {
     case 'WAIT':
@@ -91,9 +112,52 @@ const transcriptProcess = (text) => {
     case 'YOUTUBE RECORD':
       state = 'YOUTUBE SEARCH';
       youtube_api.search(text, (data) => {
-        io.emit('page youtube search', data);
+        youtube_data = data;
+        io.emit('page youtube search', {'header': text, 'data': data});
       });
       
+      break;
+    case 'YOUTUBE SEARCH':
+      if (text.indexOf('그만') != -1 ||
+          text.indexOf('취소') != -1 ||
+          text.indexOf('메뉴') != -1 ||
+          text.indexOf('로비') != -1)
+      {
+        io.emit('page lobby', null);
+      } 
+      else if (text.indexOf('첫번째') != -1)
+      {
+        processSelectingYoutube(youtube_data[0]);
+      }
+      else if (text.indexOf('두번째') != -1)
+      {
+        processSelectingYoutube(youtube_data[1]);
+      }
+      else if (text.indexOf('세번째') != -1)
+      {
+        processSelectingYoutube(youtube_data[2]);
+      }
+      else if (text.indexOf('네번째') != -1)
+      {
+        processSelectingYoutube(youtube_data[3]);
+      }
+      else if (text.indexOf('다섯번째') != -1)
+      {
+        processSelectingYoutube(youtube_data[4]);
+      }
+      else if (text.indexOf('여섯번째') != -1)
+      {
+        processSelectingYoutube(youtube_data[5]);
+      }
+      break;
+    case 'YOUTUBE SHOW':
+      if (text.indexOf('그만') != -1 ||
+        text.indexOf('취소') != -1 ||
+        text.indexOf('메뉴') != -1 ||
+        text.indexOf('로비') != -1)
+      {
+        io.emit('page lobby', null);
+      } 
       break;
   }
 };

@@ -9,7 +9,31 @@
 <body style="margin: 0 0 0 0;width:1920px;height:1080px; overflow:hidden">
     <div style="width: 100%; height: 100%; background-image: url('assets/Background.png');">
         <div id="mainText">Title</div>
-        <div id="video"></div>
+        <div id="player"></div>
     </div>
 </body>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+var player;
+function onYouTubeIframeAPIReady() {
+    const url = new URL(window.location.href);
+    const watch = url.searchParams.get("watch");
+    console.log(watch);
+    player = new YT.Player('player', {
+        height: '360',
+        width: '640',
+        videoId: watch,
+        events: {
+        'onReady': (e) => {
+            e.target.playVideo();
+        },
+        'onStateChange': (e) => {
+            if (e.data == YT.PlayerState.ENDED) {
+                console.log('end');
+            }
+        }
+        }
+    });
+}
+</script>
 </html>
